@@ -1,6 +1,4 @@
-# Utility functions
+# utils.py content goes here
 
 def utility_function():
     pass
-
-# More utility functions can be added here.

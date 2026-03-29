@@ -1,3 +1,1 @@
-"""PySpark Databricks Project - Main Package"""
-
-__version__ = "0.1.0"
+# __init__.py content goes here
