@@ -27,13 +27,7 @@ fi
 if command -v databricks >/dev/null 2>&1; then
   if [[ -n "${DATABRICKS_HOST:-}" && -n "${DATABRICKS_TOKEN:-}" ]]; then
     echo "Running Databricks bundle validate..."
-    if [[ -n "${SPARK_VERSION:-}" || -n "${NODE_TYPE_ID:-}" ]]; then
-      databricks bundle validate -t dev \
-        --var="spark_version=${SPARK_VERSION:-14.3.x-scala2.12}" \
-        --var="node_type_id=${NODE_TYPE_ID:-Standard_DS3_v2}"
-    else
-      databricks bundle validate -t dev
-    fi
+    databricks bundle validate -t dev
   else
     echo "Skipping Databricks validate (DATABRICKS_HOST/TOKEN not set)."
   fi

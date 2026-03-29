@@ -2,12 +2,6 @@ resources:
   jobs:
     sample_pyspark_job:
       name: sample-pyspark-job-${bundle.target}
-      job_clusters:
-        - job_cluster_key: default_job_cluster
-          new_cluster:
-            spark_version: ${var.spark_version}
-            node_type_id: ${var.node_type_id}
-            num_workers: 1
       tasks:
         - task_key: run_sample_pipeline
           spark_python_task:
@@ -16,6 +10,10 @@ resources:
             parameters:
               - --output-path
               - /tmp/pyspark_databricks_cicd/${bundle.target}/orders
-          job_cluster_key: default_job_cluster
-          libraries:
-            - whl: ../dist/*.whl
+          environment_key: default
+      environments:
+        - environment_key: default
+          spec:
+            client: "1"
+            dependencies:
+              - ../dist/*.whl
