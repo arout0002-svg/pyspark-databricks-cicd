@@ -16,3 +16,13 @@ def test_run_pipeline_writes_rows(tmp_path: Path) -> None:
     assert result_df.count() == 3
 
     spark.stop()
+
+
+def test_run_pipeline_without_output_path() -> None:
+    spark = SparkSession.builder.master("local[1]").appName("test-main-no-write").getOrCreate()
+
+    row_count = run_pipeline(spark)
+
+    assert row_count == 3
+
+    spark.stop()

@@ -9,6 +9,11 @@ artifacts:
     type: whl
     build: python -m pip wheel --wheel-dir dist .
 
+variables:
+  output_path:
+    description: Optional output path for parquet write; keep empty for no write.
+    default: ""
+
 targets:
   dev:
     mode: development

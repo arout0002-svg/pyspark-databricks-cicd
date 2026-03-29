@@ -50,6 +50,7 @@ This script runs `pytest` and, when Databricks CLI + env vars are available, als
    - Keep secret values plain (no leading/trailing spaces, no `KEY:` prefix)
 3. This template uses Databricks serverless job environments (compatible with serverless-only workspaces), configured with environment `client: "2"`.
 4. `DATABRICKS_CLUSTER_ID=auto` is accepted in local envs for compatibility, but it is not used by the current serverless job configuration.
+5. Task parameter `--output-path` is configured via bundle variable `output_path` (default empty to avoid DBFS writes).
 
 ## CI/CD flow
 
@@ -77,3 +78,10 @@ databricks bundle run sample_pyspark_job -t dev
 ```
 
 No cluster sizing variables are needed for the default serverless setup.
+
+To provide an explicit output path during deployment/run:
+
+```bash
+databricks bundle deploy -t dev --var="output_path=/Volumes/<catalog>/<schema>/<volume>/pyspark/orders"
+databricks bundle run sample_pyspark_job -t dev --var="output_path=/Volumes/<catalog>/<schema>/<volume>/pyspark/orders"
+```
