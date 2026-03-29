@@ -1,3 +1,3 @@
-# Package Initialization
+"""PySpark Databricks Project - Main Package"""
 
-# This file indicates that the directory should be treated as a package.
+__version__ = "0.1.0"

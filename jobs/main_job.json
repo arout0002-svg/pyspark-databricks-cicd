@@ -1,0 +1,9 @@
+{
+  "name": "Main Job",
+  "existing_cluster_id": "<your-cluster-id>",
+  "spark_job": {
+    "notebook_task": {
+      "notebook_path": "/notebooks/example_notebook"
+    }
+  }
+}
