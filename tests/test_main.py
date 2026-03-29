@@ -1,8 +1,18 @@
-import unittest
+from pathlib import Path
 
-class TestMain(unittest.TestCase):
-    def test_example(self):
-        self.assertTrue(True)
+from pyspark.sql import SparkSession
 
-if __name__ == '__main__':
-    unittest.main()
+from src.main import run_pipeline
+
+
+def test_run_pipeline_writes_rows(tmp_path: Path) -> None:
+    spark = SparkSession.builder.master("local[1]").appName("test-main").getOrCreate()
+    output_path = str(tmp_path / "orders_output")
+
+    row_count = run_pipeline(spark, output_path)
+    result_df = spark.read.parquet(output_path)
+
+    assert row_count == 3
+    assert result_df.count() == 3
+
+    spark.stop()

@@ -1,0 +1,15 @@
+resources:
+  jobs:
+    sample_pyspark_job:
+      name: sample-pyspark-job-${bundle.target}
+      tasks:
+        - task_key: run_sample_pipeline
+          spark_python_task:
+            python_file: ../jobs/main.py
+            source: WORKSPACE
+            parameters:
+              - --output-path
+              - /tmp/pyspark_databricks_cicd/${bundle.target}/orders
+          existing_cluster_id: ${var.cluster_id}
+          libraries:
+            - whl: ../dist/*.whl

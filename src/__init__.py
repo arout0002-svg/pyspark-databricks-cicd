@@ -1,1 +1,1 @@
-# __init__.py content goes here
+"""Sample PySpark package for Databricks CI/CD."""

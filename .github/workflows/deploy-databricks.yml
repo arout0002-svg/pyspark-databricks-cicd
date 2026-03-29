@@ -1,0 +1,38 @@
+name: Deploy to Databricks
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      DATABRICKS_CLUSTER_ID: ${{ secrets.DATABRICKS_CLUSTER_ID }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Set up Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Validate bundle
+        run: |
+          databricks bundle validate -t dev --var="cluster_id=${DATABRICKS_CLUSTER_ID}"
+
+      - name: Deploy bundle to Databricks
+        run: |
+          databricks bundle deploy -t dev --var="cluster_id=${DATABRICKS_CLUSTER_ID}"
+
+      - name: Run deployed job
+        run: |
+          databricks bundle run sample_pyspark_job -t dev --var="cluster_id=${DATABRICKS_CLUSTER_ID}"

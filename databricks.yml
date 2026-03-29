@@ -1,0 +1,28 @@
+bundle:
+  name: pyspark-databricks-cicd
+
+include:
+  - resources/*.yml
+
+artifacts:
+  default:
+    type: whl
+    build: python -m pip wheel --wheel-dir dist .
+
+variables:
+  cluster_id:
+    description: Existing cluster ID where the job should run
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: ${env.DATABRICKS_HOST}
+      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
+
+  prod:
+    mode: production
+    workspace:
+      host: ${env.DATABRICKS_HOST}
+      root_path: /Workspace/Shared/.bundle/${bundle.name}/${bundle.target}
