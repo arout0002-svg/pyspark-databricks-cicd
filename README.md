@@ -48,7 +48,7 @@ This script runs `pytest` and, when Databricks CLI + env vars are available, als
    - `DATABRICKS_HOST` (example: `https://adb-1234567890123456.7.azuredatabricks.net`)
    - `DATABRICKS_TOKEN`
    - Keep secret values plain (no leading/trailing spaces, no `KEY:` prefix)
-3. This template uses Databricks serverless job environments (compatible with serverless-only workspaces).
+3. This template uses Databricks serverless job environments (compatible with serverless-only workspaces), configured with environment `client: "2"`.
 4. `DATABRICKS_CLUSTER_ID=auto` is accepted in local envs for compatibility, but it is not used by the current serverless job configuration.
 
 ## CI/CD flow
