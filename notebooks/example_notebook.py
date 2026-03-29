@@ -8,6 +8,5 @@
 
 from src.main import run_pipeline
 
-output_path = "/tmp/pyspark_databricks_cicd/notebook_output"
-rows = run_pipeline(spark, output_path)
-print(f"Notebook pipeline completed. Rows written: {rows}")
+rows = run_pipeline(spark)
+print(f"Notebook pipeline completed. Rows processed: {rows}")
