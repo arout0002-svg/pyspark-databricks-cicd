@@ -9,14 +9,6 @@ artifacts:
     type: whl
     build: python -m pip wheel --wheel-dir dist .
 
-variables:
-  spark_version:
-    description: Databricks Runtime version for job clusters
-    default: 14.3.x-scala2.12
-  node_type_id:
-    description: Node type for job clusters
-    default: Standard_DS3_v2
-
 targets:
   dev:
     mode: development

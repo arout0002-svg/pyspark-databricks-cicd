@@ -24,6 +24,28 @@ jobs:
       - name: Set up Databricks CLI
         uses: databricks/setup-cli@main
 
+      - name: Validate Databricks auth env
+        shell: bash
+        run: |
+          CLEAN_HOST="$(echo "${DATABRICKS_HOST:-}" | tr -d '\r' | xargs)"
+          CLEAN_TOKEN="$(echo "${DATABRICKS_TOKEN:-}" | tr -d '\r' | xargs)"
+
+          if [[ -z "${CLEAN_HOST}" ]]; then
+            echo "DATABRICKS_HOST is empty."
+            exit 1
+          fi
+          if [[ ! "${CLEAN_HOST}" =~ ^https:// ]]; then
+            echo "DATABRICKS_HOST must start with https://"
+            exit 1
+          fi
+          if [[ -z "${CLEAN_TOKEN}" ]]; then
+            echo "DATABRICKS_TOKEN is empty."
+            exit 1
+          fi
+
+          echo "DATABRICKS_HOST=${CLEAN_HOST}" >> "${GITHUB_ENV}"
+          echo "DATABRICKS_TOKEN=${CLEAN_TOKEN}" >> "${GITHUB_ENV}"
+
       - name: Validate bundle
         run: |
           databricks bundle validate -t dev

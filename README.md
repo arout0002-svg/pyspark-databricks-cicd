@@ -47,10 +47,9 @@ This script runs `pytest` and, when Databricks CLI + env vars are available, als
 2. Add these GitHub repository secrets:
    - `DATABRICKS_HOST` (example: `https://adb-1234567890123456.7.azuredatabricks.net`)
    - `DATABRICKS_TOKEN`
-3. (Optional) Override cluster settings via bundle variables:
-   - `spark_version` (default: `14.3.x-scala2.12`)
-   - `node_type_id` (default: `Standard_DS3_v2`)
-4. `DATABRICKS_CLUSTER_ID=auto` is accepted in local envs for compatibility, but it is not used by the current job-cluster configuration.
+   - Keep secret values plain (no leading/trailing spaces, no `KEY:` prefix)
+3. This template uses Databricks serverless job environments (compatible with serverless-only workspaces).
+4. `DATABRICKS_CLUSTER_ID=auto` is accepted in local envs for compatibility, but it is not used by the current serverless job configuration.
 
 ## CI/CD flow
 
@@ -77,8 +76,4 @@ databricks bundle deploy -t dev
 databricks bundle run sample_pyspark_job -t dev
 ```
 
-To override default job-cluster sizing/runtime:
-
-```bash
-databricks bundle deploy -t dev --var="spark_version=14.3.x-scala2.12" --var="node_type_id=Standard_DS3_v2"
-```
+No cluster sizing variables are needed for the default serverless setup.
