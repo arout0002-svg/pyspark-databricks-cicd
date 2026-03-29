@@ -26,14 +26,31 @@ pytest -q
 python -m src.main --output-path /tmp/pyspark_databricks_cicd/local_run
 ```
 
+## Local test setup (recommended)
+
+1. Create local env file:
+   ```bash
+   cp .env.local.example .env.local
+   ```
+2. Update `.env.local` with your Databricks values (`DATABRICKS_HOST`, `DATABRICKS_TOKEN`).
+3. Run local validation:
+   ```bash
+   chmod +x scripts/local_test.sh
+   ./scripts/local_test.sh
+   ```
+
+This script runs `pytest` and, when Databricks CLI + env vars are available, also runs `databricks bundle validate -t dev`.
+
 ## Databricks prerequisites
 
 1. Create a Databricks personal access token (PAT).
-2. Identify an existing cluster ID where the job can run.
-3. Add these GitHub repository secrets:
+2. Add these GitHub repository secrets:
    - `DATABRICKS_HOST` (example: `https://adb-1234567890123456.7.azuredatabricks.net`)
    - `DATABRICKS_TOKEN`
-   - `DATABRICKS_CLUSTER_ID`
+3. (Optional) Override cluster settings via bundle variables:
+   - `spark_version` (default: `14.3.x-scala2.12`)
+   - `node_type_id` (default: `Standard_DS3_v2`)
+4. `DATABRICKS_CLUSTER_ID=auto` is accepted in local envs for compatibility, but it is not used by the current job-cluster configuration.
 
 ## CI/CD flow
 
@@ -55,7 +72,13 @@ python -m src.main --output-path /tmp/pyspark_databricks_cicd/local_run
 ```bash
 export DATABRICKS_HOST="https://<your-databricks-workspace>"
 export DATABRICKS_TOKEN="<your-token>"
-databricks bundle validate -t dev --var="cluster_id=<your-cluster-id>"
-databricks bundle deploy -t dev --var="cluster_id=<your-cluster-id>"
-databricks bundle run sample_pyspark_job -t dev --var="cluster_id=<your-cluster-id>"
+databricks bundle validate -t dev
+databricks bundle deploy -t dev
+databricks bundle run sample_pyspark_job -t dev
+```
+
+To override default job-cluster sizing/runtime:
+
+```bash
+databricks bundle deploy -t dev --var="spark_version=14.3.x-scala2.12" --var="node_type_id=Standard_DS3_v2"
 ```
