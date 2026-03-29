@@ -1,7 +1,13 @@
-# Example Notebook
+# Databricks notebook source
+# MAGIC %md
+# MAGIC # Sample PySpark Notebook
+# MAGIC
+# MAGIC This notebook executes the same transformation logic used by the packaged job.
 
-# This notebook demonstrates basic PySpark functionalities.
+# COMMAND ----------
 
-import pyspark
+from src.main import run_pipeline
 
-# Example code here.
+output_path = "/tmp/pyspark_databricks_cicd/notebook_output"
+rows = run_pipeline(spark, output_path)
+print(f"Notebook pipeline completed. Rows written: {rows}")

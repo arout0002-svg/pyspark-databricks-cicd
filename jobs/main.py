@@ -1,13 +1,4 @@
-from pyspark.sql import SparkSession
-
-
-def main():
-    spark = SparkSession.builder.appName("MyPySparkJob").getOrCreate()
-    # Your PySpark job implementation here
-    data = spark.read.csv("path/to/data.csv")
-    data.show()
-    
-    spark.stop()
+from src.main import main
 
 
 if __name__ == "__main__":

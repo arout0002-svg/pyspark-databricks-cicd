@@ -1,9 +1,16 @@
 {
-  "name": "Main Job",
-  "existing_cluster_id": "<your-cluster-id>",
-  "spark_job": {
-    "notebook_task": {
-      "notebook_path": "/notebooks/example_notebook"
+  "name": "sample-pyspark-job",
+  "tasks": [
+    {
+      "task_key": "run_sample_pipeline",
+      "spark_python_task": {
+        "python_file": "/Workspace/Repos/<your-user>/<your-repo>/jobs/main.py",
+        "parameters": [
+          "--output-path",
+          "/tmp/pyspark_databricks_cicd/manual/orders"
+        ]
+      },
+      "existing_cluster_id": "<your-cluster-id>"
     }
-  }
+  ]
 }
