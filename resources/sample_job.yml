@@ -1,21 +1,10 @@
-resources:
-  jobs:
-    sample_pyspark_job:
-      name: sample-pyspark-job-${bundle.target}
-      job_clusters:
-        - job_cluster_key: default_job_cluster
-          new_cluster:
-            spark_version: ${var.spark_version}
-            node_type_id: ${var.node_type_id}
-            num_workers: 1
-      tasks:
-        - task_key: run_sample_pipeline
-          spark_python_task:
-            python_file: ../jobs/main.py
-            source: WORKSPACE
-            parameters:
-              - --output-path
-              - /tmp/pyspark_databricks_cicd/${bundle.target}/orders
-          job_cluster_key: default_job_cluster
-          libraries:
-            - whl: ../dist/*.whl
+# Sample job configuration for Databricks using serverless compute.
+
+# Define the Job configuration
+job:
+  name: Sample Job
+  compute_key: serverless_policy_key  # This points to the serverless compute policy
+  spark_python_task:
+    python_file: dbfs:/FileStore/jobs/your-script.py
+  # Other configurations can remain as needed
+  # e.g. library, spark_conf, etc.
